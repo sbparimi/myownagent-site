@@ -424,3 +424,4 @@ body.chat-open{overflow:hidden}
 
 .pp.pp-one{grid-template-columns:1fr;max-width:380px;margin-left:auto;margin-right:auto}
 .pp-sum + .pp-maint{margin:-16px 0 8px}
+@media(max-width:480px){.hero-price i{display:none}}
