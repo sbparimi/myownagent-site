@@ -250,3 +250,21 @@ details p{color:var(--ink2);margin:12px 0 0}
 .brandline .bl-name{font-weight:900;font-size:clamp(1.5rem,6.6vw,2.3rem);letter-spacing:-.03em;color:#fff;line-height:1.05}
 .brandline .bl-tag{font-size:clamp(1.05rem,4.4vw,1.35rem);font-weight:700;font-style:italic;color:var(--wa)}
 @media(max-width:380px){.nav .logo .mark{width:22px;height:22px}.nav .logo{gap:7px}}
+
+/* contact page */
+.contact-sec{padding-top:128px;min-height:80vh}
+.contact-sec h1{color:#fff;font-size:clamp(2.2rem,7vw,3.6rem);font-weight:900}
+.contact-sec h1 span{display:block;font-size:.5em;color:var(--accent2);font-weight:750;margin-top:10px;letter-spacing:-.02em}
+.lead-c{font-size:1.08rem;color:rgba(234,242,238,.82);max-width:56ch}
+.form textarea{width:100%;min-height:150px;border-radius:14px;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.95);color:var(--ink);padding:12px 14px;font:inherit;resize:vertical}
+.form textarea:focus{border-color:var(--accent);outline:none;box-shadow:0 0 0 3px rgba(232,163,61,.35)}
+.form [aria-invalid="true"]{border-color:#ff8a7a;box-shadow:0 0 0 3px rgba(255,138,122,.25)}
+.form .err{margin:0;min-height:0;font-size:.86rem;color:#ffb3a8}
+.form .err:empty{display:none}
+.direct{margin-top:30px;padding:22px 24px;border-radius:24px;border:1px dashed rgba(255,255,255,.18)}
+.direct p{margin:0 0 6px}
+.direct-mail{font-size:1.25rem;font-weight:800}
+.direct-mail a{text-decoration:none;border-bottom:2px solid currentColor}
+.foot a{color:var(--accent2)}
+.nav nav a[aria-current="page"]{color:#fff;font-weight:700}
+.pp-refund{margin-top:4px}
