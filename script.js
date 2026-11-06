@@ -225,3 +225,25 @@ pickBtn.addEventListener('click',function(){
 window.YPA_PICKS=function(){ return picks.map(function(p){return JOBS[p].title;}); };
 window.YPA_OPEN=open; window.YPA_CLOSE=close;
 })();
+
+/* v10: hero showcase video, lazy-loaded, muted autoplay, tap to unmute */
+(function(){
+  var v=document.getElementById('hero-video'), b=document.getElementById('hero-video-snd');
+  if(!v) return;
+  var loaded=false;
+  function load(){ if(loaded) return; loaded=true; v.src=v.getAttribute('data-src'); v.load(); }
+  function play(){ var p=v.play(); if(p&&p.catch) p.catch(function(){}); }
+  if('IntersectionObserver' in window){
+    var vio=new IntersectionObserver(function(ents){ ents.forEach(function(en){
+      if(en.isIntersecting){ load(); play(); } else if(loaded){ v.pause(); }
+    }); },{rootMargin:'200px 0px'});
+    vio.observe(v);
+  } else { load(); play(); }
+  function sync(){ var on=!v.muted;
+    b.setAttribute('aria-pressed',on?'true':'false');
+    b.setAttribute('aria-label',on?'Video sound is on. Tap to mute':'Video sound is off. Tap to turn it on');
+    b.querySelector('.hv-i').textContent=on?'🔇':'🔊';
+    b.querySelector('.hv-t').textContent=on?'Mute':'Tap for sound';
+    b.classList.toggle('on',on); }
+  if(b){ b.addEventListener('click',function(){ load(); v.muted=!v.muted; if(!v.muted){ v.volume=1; } play(); sync(); }); sync(); }
+})();
