@@ -204,3 +204,15 @@ details p{color:var(--ink2);margin:12px 0 0}
 .ci svg{width:26px;height:26px;fill:none;stroke:var(--brand);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .btn{text-align:center;line-height:1.25}
 .btn-big{padding:10px 30px}
+
+/* v2: 12 jobs */
+.job{position:relative;display:flex;flex-direction:column;gap:10px}
+.job h3{margin:0;font-size:1.15rem}
+.jn{font-size:.85rem;font-weight:900;letter-spacing:.12em;color:var(--brand2)}
+.job .why{margin-top:auto;padding-top:12px;border-top:1px dashed var(--line);font-size:.9rem;color:var(--mut)}
+.job .why b{color:var(--ink);font-weight:750}
+.bundles{margin-top:34px;background:var(--alt);border-radius:var(--r);padding:24px 26px}
+.bundles h3{margin-bottom:10px}
+.bundles ul{margin:0;padding-left:20px;color:var(--ink2)}
+.bundles li{margin:6px 0}
+.amount em+em{color:var(--accent2)}
