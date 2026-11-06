@@ -202,3 +202,5 @@ details p{color:var(--ink2);margin:12px 0 0}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.js .reveal,.js [data-s]{opacity:1!important;transform:none!important}.js .typing[data-s]{display:none}}
 
 .ci svg{width:26px;height:26px;fill:none;stroke:var(--brand);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.btn{text-align:center;line-height:1.25}
+.btn-big{padding:10px 30px}
