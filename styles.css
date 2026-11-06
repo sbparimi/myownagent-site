@@ -563,3 +563,7 @@ body.chat-open{overflow:hidden}
 @media(min-width:960px){.dc-grid{grid-template-columns:minmax(0,4fr) minmax(0,7fr);gap:56px}.dc-intro{position:sticky;top:112px}}
 .pc-alt span{margin-left:8px}
 @media(max-width:639px){.dc-job{font-size:.875rem;padding:0 8px 0 12px}}
+
+/* v11: 13 jobs, keep the last orb centred */
+@media(min-width:640px) and (max-width:1019px){.jgrid>.jc:last-child:nth-child(2n+1){grid-column:1 / -1;justify-self:center;width:calc(50% - 11px)}}
+@media(min-width:1020px){.jgrid>.jc:last-child:nth-child(3n+1){grid-column:2}}
