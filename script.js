@@ -247,3 +247,27 @@ window.YPA_OPEN=open; window.YPA_CLOSE=close;
     b.classList.toggle('on',on); }
   if(b){ b.addEventListener('click',function(){ load(); v.muted=!v.muted; if(!v.muted){ v.volume=1; } play(); sync(); }); sync(); }
 })();
+
+/* v10: free discovery call request (opens a mail to hello@aiagentops.nl, like the contact form) */
+(function(){
+  var f=document.getElementById('dc'); if(!f) return;
+  var TO='hello@aiagentops.nl', EM=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+  var rules=[['name','dc-e-name',function(v){return v?'':'Please enter your name.';}],
+             ['email','dc-e-mail',function(v){return !v?'Please enter your email.':(EM.test(v)?'':'Please enter a valid email address.');}],
+             ['times','dc-e-times',function(v){return v?'':'Please add 2 or 3 days or times that suit you.';}]];
+  function check(){ var first=null; rules.forEach(function(r){ var el=f.elements[r[0]], m=r[2](el.value.trim()); document.getElementById(r[1]).textContent=m; el.setAttribute('aria-invalid',m?'true':'false'); if(m&&!first) first=el; }); return first; }
+  rules.forEach(function(r){ f.elements[r[0]].addEventListener('input',function(){ if(f.dataset.tried) check(); }); });
+  f.addEventListener('submit',function(e){
+    e.preventDefault(); f.dataset.tried='1';
+    var bad=check(); if(bad){ bad.focus(); return; }
+    var v=function(n){return f.elements[n].value.trim();};
+    var jobs=[].slice.call(f.querySelectorAll('input[name="jobs"]:checked')).map(function(c){return c.value;});
+    var subject='Discovery call request \u2014 '+v('name');
+    var body='Name: '+v('name')+'\nEmail: '+v('email')+'\nPhone: '+(v('phone')||'-')+'\nJobs I am interested in: '+(jobs.length?jobs.join(', '):'Not sure yet')+'\nDays or times that suit me: '+v('times')+'\n';
+    var url='mailto:'+TO+'?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+    f.dataset.mailto=url;
+    var t=document.getElementById('dc-thanks'); if(t){ t.hidden=false; }
+    f.classList.add('sent');
+    window.location.href=url;
+  });
+})();

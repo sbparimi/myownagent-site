@@ -37,7 +37,7 @@
       <a href="#faq">FAQ</a>
       <a href="/contact">Contact</a>
     </nav>
-    <a class="btn btn-sm" href="#join">Reserve<span class="long">&nbsp;· €49.99 + VAT setup</span></a>
+    <a class="btn btn-sm" href="#call"><span class="short">Free call</span><span class="long">Book a free discovery call</span></a>
   </div>
 </header>
 
@@ -53,8 +53,8 @@
       <div class="hero-act">
         <p class="lede reveal">Tell it in WhatsApp and it does the whole thing: the tailored CV and the application, the dashboard, the supplier quotes, the call in Dutch, the post and the video. It makes the judgment calls along the way and reports back when it's done.</p>
         <div class="cta-row reveal">
-          <a class="btn btn-big" href="#join">Reserve for €49.99 + VAT</a>
-          <a class="btn btn-ghost" href="#does">Pick your 3 jobs</a>
+          <a class="btn btn-big" href="#call">Book a free discovery call</a>
+          <a class="btn btn-ghost" href="#join">Ready? Pick your 3 jobs</a>
         </div>
         <div class="hero-offer reveal">
           <p class="hero-price"><b>€49.99</b><span class="hp-t"><span>+ VAT one-time setup</span><span>Pick any 3 jobs</span></span></p>
@@ -348,7 +348,8 @@
         <p class="pc-label">One-time setup</p>
         <p class="pc-price"><span class="pc-amt">€49.99</span><span class="pc-vat">+ VAT</span></p>
         <p class="pc-sub">Pick any 3 jobs</p>
-        <a class="btn btn-big pc-cta" href="#join">Reserve for €49.99 + VAT</a>
+        <a class="btn btn-big pc-cta" href="#call">Book a free discovery call</a>
+        <a class="pc-alt" href="#join">Ready? Pick your 3 jobs<span aria-hidden="true"> →</span></a>
         <p class="pc-more">Need more than 3? Ask us when you reserve.</p>
       </div>
       <div class="pc-inc">
@@ -372,6 +373,46 @@
 </section>
 
 <!-- FAQ -->
+<section id="call" class="sec price dc">
+  <div class="wrap">
+    <div class="dc-grid">
+      <header class="dc-intro reveal">
+        <p class="kicker">Free discovery call</p>
+        <h2>Talk to me first</h2>
+        <p class="dc-lede">A free 15-minute call. I'll show you how I've set up my own jobs, live, and we'll pick your 3 together. No obligation.</p>
+      </header>
+      <form id="dc" class="dc-form reveal" action="mailto:hello@aiagentops.nl" method="post" enctype="text/plain" novalidate>
+        <div class="dc-row">
+          <div class="dc-f"><label for="dc-name">Your name</label><input id="dc-name" name="name" autocomplete="name" required><p class="dc-err" id="dc-e-name" aria-live="polite"></p></div>
+          <div class="dc-f"><label for="dc-mail">Email</label><input id="dc-mail" name="email" type="email" autocomplete="email" required><p class="dc-err" id="dc-e-mail" aria-live="polite"></p></div>
+        </div>
+        <div class="dc-f"><label for="dc-phone">Phone <span class="dc-opt">(optional)</span></label><input id="dc-phone" name="phone" type="tel" autocomplete="tel"></div>
+        <fieldset class="dc-f dc-jobs">
+          <legend>Which jobs interest you?</legend>
+          <div class="dc-jobgrid">
+            <label class="dc-job"><input type="checkbox" name="jobs" value="Kids&#x27; school"><span>Kids' school</span></label>
+            <label class="dc-job"><input type="checkbox" name="jobs" value="Shopping"><span>Shopping</span></label>
+            <label class="dc-job"><input type="checkbox" name="jobs" value="Reminders"><span>Reminders</span></label>
+            <label class="dc-job"><input type="checkbox" name="jobs" value="Calendar"><span>Calendar</span></label>
+            <label class="dc-job"><input type="checkbox" name="jobs" value="Travel plans"><span>Travel plans</span></label>
+            <label class="dc-job"><input type="checkbox" name="jobs" value="Ticket booking"><span>Ticket booking</span></label>
+            <label class="dc-job"><input type="checkbox" name="jobs" value="Appointments"><span>Appointments</span></label>
+            <label class="dc-job"><input type="checkbox" name="jobs" value="Bills &amp; renewals"><span>Bills &amp; renewals</span></label>
+            <label class="dc-job"><input type="checkbox" name="jobs" value="Job hunting"><span>Job hunting</span></label>
+            <label class="dc-job"><input type="checkbox" name="jobs" value="Birthdays &amp; gifts"><span>Birthdays &amp; gifts</span></label>
+            <label class="dc-job"><input type="checkbox" name="jobs" value="Home repairs"><span>Home repairs</span></label>
+            <label class="dc-job"><input type="checkbox" name="jobs" value="Calls for you"><span>Calls for you</span></label>
+          </div>
+        </fieldset>
+        <div class="dc-f"><label for="dc-times">2–3 days or times that suit you</label><input id="dc-times" name="times" required placeholder="e.g. Tue after 14:00, Thu morning"><p class="dc-err" id="dc-e-times" aria-live="polite"></p></div>
+        <button class="btn btn-big dc-btn" type="submit">Book a free discovery call</button>
+        <p class="dc-thanks" id="dc-thanks" role="status" hidden>Thanks! I'll confirm a time by email within 24 hours.</p>
+        <p class="dc-note">This opens your email app with the details filled in. Or write to <a href="mailto:hello@aiagentops.nl">hello@aiagentops.nl</a>.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
 <section id="faq" class="sec faq">
   <div class="wrap narrow">
     <p class="kicker reveal">Questions</p>
