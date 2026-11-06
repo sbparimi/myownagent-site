@@ -59,7 +59,90 @@ var modal=d.getElementById('chat-modal'); if(!modal) return;
 var sheet=modal.querySelector('.chat-sheet'), log=d.getElementById('chat-log'), steps=d.getElementById('chat-job'),
     status=modal.querySelector('.chat-status'), pickBtn=d.getElementById('chat-pick'), replay=d.getElementById('chat-replay');
 var timers=[], cur=null, opener=null, picks=[];
-function clear(){ timers.forEach(clearTimeout); timers=[]; }
+
+/* chat sound: code-made pops, chimes, dings and a light music bed (starts only on a tap) */
+var SND=(function(){
+  var AC=window.AudioContext||window.webkitAudioContext, ctx=null, master=null, sfx=null, mus=null, noiseBuf=null;
+  var on=true; try{ on=localStorage.getItem('ypa-sound')!=='0'; }catch(e){}
+  var playing=false, sched=null, nextT=0, step=0, tickT=null, stopT=null;
+  var BPM=110, E8=60/BPM/2;
+  var PROG=[[60,64,67],[55,59,62],[57,60,64],[53,57,60]]; /* C G Am F */
+  function hz(n){ return 440*Math.pow(2,(n-69)/12); }
+  function init(){
+    if(!AC) return false;
+    if(!ctx){
+      try{ ctx=new AC(); }catch(e){ AC=null; return false; }
+      master=ctx.createGain(); master.gain.value=0.9; master.connect(ctx.destination);
+      sfx=ctx.createGain(); sfx.gain.value=1.0; sfx.connect(master);
+      mus=ctx.createGain(); mus.gain.value=0; mus.connect(master);
+      noiseBuf=ctx.createBuffer(1,ctx.sampleRate,ctx.sampleRate);
+      var ch=noiseBuf.getChannelData(0); for(var i=0;i<ch.length;i++) ch[i]=Math.random()*2-1;
+    }
+    if(ctx.state==='suspended'&&ctx.resume) ctx.resume();
+    return true;
+  }
+  function env(g,t,a,peak,dec){ g.gain.setValueAtTime(0.0001,t); g.gain.exponentialRampToValueAtTime(peak,t+a); g.gain.exponentialRampToValueAtTime(0.0001,t+a+dec); }
+  function tone(type,f,t,a,peak,dec,dest,f2){
+    var o=ctx.createOscillator(), g=ctx.createGain(); o.type=type; o.frequency.setValueAtTime(f,t);
+    if(f2) o.frequency.exponentialRampToValueAtTime(f2,t+a+dec*0.6);
+    env(g,t,a,peak,dec); o.connect(g); g.connect(dest); o.start(t); o.stop(t+a+dec+0.05);
+  }
+  function noise(t,dur,peak,hp,dest){
+    var s=ctx.createBufferSource(), f=ctx.createBiquadFilter(), g=ctx.createGain();
+    s.buffer=noiseBuf; f.type='highpass'; f.frequency.value=hp; env(g,t,0.003,peak,dur);
+    s.connect(f); f.connect(g); g.connect(dest); s.start(t,Math.random()*0.5); s.stop(t+dur+0.05);
+  }
+  function ok(){ return on&&ctx&&ctx.state!=='closed'; }
+  function pop(){ if(!ok()) return; var t=ctx.currentTime+0.01; tone('sine',620,t,0.004,0.6,0.09,sfx,240); noise(t,0.025,0.05,2500,sfx); }
+  function chime(){ if(!ok()) return; var t=ctx.currentTime+0.01; tone('sine',hz(81),t,0.006,0.22,0.35,sfx); tone('sine',hz(88),t+0.09,0.006,0.2,0.45,sfx); tone('triangle',hz(93),t+0.09,0.006,0.05,0.3,sfx); }
+  function ding(){ if(!ok()) return; var t=ctx.currentTime+0.18; tone('sine',hz(96),t,0.004,0.32,0.7,sfx); tone('sine',hz(103),t,0.004,0.1,0.5,sfx); tone('triangle',hz(84),t,0.004,0.08,0.4,sfx); }
+  function typing(start){
+    if(tickT){ clearInterval(tickT); tickT=null; }
+    if(!start||!ok()) return;
+    tickT=setInterval(function(){ if(ok()) noise(ctx.currentTime+0.01,0.012,0.035,4000,sfx); },190);
+  }
+  function bar(t,ci){
+    var c=PROG[ci%4];
+    /* warm pad: two detuned voices per note through a soft low-pass */
+    var lp=ctx.createBiquadFilter(); lp.type='lowpass'; lp.frequency.value=1400; lp.Q.value=0.3;
+    var pg=ctx.createGain(), L=E8*8; pg.gain.setValueAtTime(0.0001,t); pg.gain.linearRampToValueAtTime(0.16,t+0.35); pg.gain.setValueAtTime(0.16,t+L-0.25); pg.gain.linearRampToValueAtTime(0.0001,t+L+0.15);
+    lp.connect(pg); pg.connect(mus);
+    c.concat([c[0]-12]).forEach(function(n){ [-5,5].forEach(function(dt){ var o=ctx.createOscillator(); o.type='triangle'; o.frequency.value=hz(n); o.detune.value=dt; o.connect(lp); o.start(t); o.stop(t+L+0.2); }); });
+  }
+  function eighth(t,k,ci){
+    var c=PROG[ci%4], pat=[0,1,2,1,0,2,1,2], n=c[pat[k%8]]+12;
+    tone('triangle',hz(n),t,0.004,0.18,0.28,mus);           /* plucked arpeggio */
+    tone('sine',hz(n+12),t,0.003,0.04,0.12,mus);
+    noise(t,k%2?0.05:0.03,k%2?0.10:0.05,6500,mus);           /* shaker, accent off-beats */
+    if(k===0||k===4) tone('sine',hz(c[0]-24),t,0.01,0.22,0.35,mus); /* soft low pulse */
+  }
+  function run(){
+    while(nextT<ctx.currentTime+0.15){
+      var ci=Math.floor(step/8), k=step%8;
+      if(k===0) bar(nextT,ci);
+      eighth(nextT,k,ci);
+      nextT+=E8; step++;
+    }
+  }
+  function musicStart(){
+    if(!init()||!on) return;
+    if(stopT){ clearTimeout(stopT); stopT=null; }
+    var t=ctx.currentTime; mus.gain.cancelScheduledValues(t); mus.gain.setValueAtTime(mus.gain.value,t); mus.gain.linearRampToValueAtTime(0.035,t+0.8); /* bed sits ~20 dB under the chat sounds */
+    if(playing) return; playing=true; step=0; nextT=t+0.08; run(); sched=setInterval(run,40);
+  }
+  function musicStop(fast){
+    typing(false); if(!ctx||!playing) return;
+    var t=ctx.currentTime, f=fast?0.08:0.5; mus.gain.cancelScheduledValues(t); mus.gain.setValueAtTime(mus.gain.value,t); mus.gain.linearRampToValueAtTime(0,t+f);
+    stopT=setTimeout(function(){ clearInterval(sched); sched=null; playing=false; stopT=null; },f*1000+60);
+  }
+  function set(v){ on=!!v; try{ localStorage.setItem('ypa-sound',on?'1':'0'); }catch(e){} if(on){ init(); } else { musicStop(true); } }
+  return {init:init,pop:pop,chime:chime,ding:ding,typing:typing,start:musicStart,stop:musicStop,set:set,isOn:function(){return on;},state:function(){return {on:on,playing:playing,ctx:ctx?ctx.state:null,music:mus?mus.gain.value:null};}};
+})();
+var sndBtn=d.getElementById('chat-snd');
+function syncSnd(){ if(!sndBtn) return; var o=SND.isOn(); sndBtn.textContent=o?'🔊':'🔇'; sndBtn.setAttribute('aria-pressed',o?'true':'false'); sndBtn.setAttribute('aria-label',o?'Sound on. Tap to mute':'Sound off. Tap to turn on'); }
+if(sndBtn){ syncSnd(); sndBtn.addEventListener('click',function(){ SND.set(!SND.isOn()); syncSnd(); if(SND.isOn()&&!modal.hidden) SND.start(); }); }
+window.YPA_SND=SND;
+function clear(){ timers.forEach(clearTimeout); timers=[]; if(window.YPA_SND) SND.typing(false); }
 function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c];}); }
 function scroll(){ log.scrollTop=log.scrollHeight; }
 function bubble(m){
@@ -67,6 +150,7 @@ function bubble(m){
   if(m.d){ b.className='chat-day'; b.textContent=m.d; }
   else { b.className='cb '+m.f+(m.s?' done':''); b.innerHTML=esc(m.t)+'<time>'+esc(m.at)+'</time>'; }
   log.appendChild(b); scroll();
+  if(!m.d&&!RM){ if(m.f==='u') SND.pop(); else SND.chime(); if(m.s) SND.ding(); }
   if(m.s){ var c=steps.querySelector('[data-step="'+m.s+'"]'); if(c) c.classList.add('done'); }
 }
 function play(id){
@@ -79,9 +163,9 @@ function play(id){
     if(m.d){ timers.push(setTimeout(function(){bubble(m);},t)); t+=500; return; }
     if(m.f==='a'){
       var typ;
-      timers.push(setTimeout(function(){ typ=d.createElement('div'); typ.className='cb a typing'; typ.innerHTML='<span></span><span></span><span></span>'; log.appendChild(typ); scroll(); status.textContent='typing…'; },t));
+      timers.push(setTimeout(function(){ typ=d.createElement('div'); typ.className='cb a typing'; typ.innerHTML='<span></span><span></span><span></span>'; log.appendChild(typ); scroll(); status.textContent='typing…'; SND.typing(true); },t));
       t+=Math.min(1900,700+m.t.length*9);
-      timers.push(setTimeout(function(){ if(typ&&typ.parentNode) typ.parentNode.removeChild(typ); status.textContent='online'; bubble(m); },t));
+      timers.push(setTimeout(function(){ if(typ&&typ.parentNode) typ.parentNode.removeChild(typ); status.textContent='online'; SND.typing(false); bubble(m); },t));
       t+=650;
     } else {
       t+=450; timers.push(setTimeout(function(){bubble(m);},t)); t+=750;
@@ -107,11 +191,12 @@ function open(id,btn){
   cur=id; opener=btn||null; var j=JOBS[id];
   sheet.style.setProperty('--c1',j.c1); sheet.style.setProperty('--c2',j.c2);
   modal.hidden=false; d.body.classList.add('chat-open');
+  SND.init(); SND.start(); syncSnd();
   syncPick(); play(id);
   setTimeout(function(){ var x=modal.querySelector('.chat-x'); if(x) x.focus(); },30);
 }
 function close(){
-  if(modal.hidden) return; clear(); modal.hidden=true; d.body.classList.remove('chat-open'); cur=null;
+  if(modal.hidden) return; clear(); SND.stop(); modal.hidden=true; d.body.classList.remove('chat-open'); cur=null;
   if(opener&&opener.focus) opener.focus();
 }
 [].forEach.call(d.querySelectorAll('.orbit[data-job]'),function(b){

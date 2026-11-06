@@ -23,8 +23,8 @@ a{color:var(--brand)}
 .nav.solid{background:rgba(11,31,25,.88);backdrop-filter:saturate(1.4) blur(12px);border-bottom-color:rgba(255,255,255,.08)}
 .nav-in{display:flex;align-items:center;gap:16px;height:64px}
 .logo{display:flex;align-items:center;gap:10px;font-weight:850;font-size:1.15rem;color:#fff;text-decoration:none;letter-spacing:-.02em}
-.mark{display:inline-block;width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,var(--brand2),var(--brand));position:relative;box-shadow:inset 0 0 0 2px rgba(255,255,255,.18);flex:none}
-.mark::after{content:"";position:absolute;inset:8px;border-radius:50%;background:var(--accent)}
+.mark{display:inline-block;width:28px;height:28px;background:url(/logo.svg) center/contain no-repeat;position:relative;flex:none;vertical-align:middle}
+.mark::after{content:none}
 .nav nav{display:none;margin-left:auto;gap:22px}
 .nav nav a{color:rgba(255,255,255,.78);text-decoration:none;font-size:.95rem}
 .nav nav a:hover{color:#fff}
@@ -69,8 +69,8 @@ a{color:var(--brand)}
 .phone{position:relative;width:min(340px,88vw);border-radius:44px;padding:14px;background:linear-gradient(160deg,#1d2a26,#0d1512);box-shadow:0 30px 80px rgba(0,0,0,.55),inset 0 0 0 1.5px rgba(255,255,255,.12);transform:rotate(-2deg)}
 .notch{position:absolute;top:22px;left:50%;width:90px;height:22px;margin-left:-45px;border-radius:12px;background:#05090a;z-index:2}
 .ph-head{display:flex;align-items:center;gap:10px;padding:44px 14px 12px;background:#0f3b30;border-radius:32px 32px 0 0;color:#fff}
-.av{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--brand2),var(--brand));position:relative;flex:none}
-.av::after{content:"";position:absolute;inset:11px;border-radius:50%;background:var(--accent)}
+.av{width:34px;height:34px;border-radius:50%;background:#0b1f19 url(/logo.svg) center/70% no-repeat;position:relative;flex:none}
+.av::after{content:none}
 .who{display:flex;flex-direction:column;line-height:1.2;font-size:.95rem}
 .who small{color:#9fe3bf;font-size:.75rem}
 .ph-time{margin-left:auto;font-size:.75rem;color:rgba(255,255,255,.7)}
@@ -380,8 +380,8 @@ details p{color:var(--ink2);margin:12px 0 0}
 .chat-x:hover,.chat-x:focus-visible{background:rgba(255,255,255,.15)}
 .chat-x:focus-visible{outline:2px solid #fff}
 .chat-x svg{width:22px;height:22px}
-.chat-head .mark{width:36px;height:36px;border-radius:50%}
-.chat-head .mark::after{inset:11px}
+.chat-head .mark{width:36px;height:36px;border-radius:50%;background:#0b1f19 url(/logo.svg) center/70% no-repeat}
+.chat-head .mark::after{content:none}
 .chat-who{display:flex;flex-direction:column;line-height:1.2;min-width:0;flex:1}
 .chat-who b{font-size:.98rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .chat-who small{font-size:.76rem;opacity:.85}
@@ -416,3 +416,8 @@ details p{color:var(--ink2);margin:12px 0 0}
 .chat-dram{flex:none;margin:0;padding:0 12px 10px;background:#f0f2f5;font-size:.68rem;color:#667781;text-align:center}
 body.chat-open{overflow:hidden}
 @media(prefers-reduced-motion:reduce){.chat-sheet,.cb,.chat-backdrop{animation:none}}
+
+/* chat sound toggle */
+.chat-snd{all:unset;cursor:pointer;display:grid;place-items:center;width:38px;height:38px;border-radius:50%;flex:none;font-size:1.15rem;line-height:1}
+.chat-snd:hover,.chat-snd:focus-visible{background:rgba(255,255,255,.15)}
+.chat-snd:focus-visible{outline:2px solid #fff}
