@@ -44,7 +44,7 @@ var f=d.getElementById('wl'); if(!f) return;
 f.addEventListener('submit',function(e){
   e.preventDefault();
   var n=f.elements.name.value.trim(), m=f.elements.email.value.trim(), u=f.elements.first.value;
-  var body='Name: '+n+'\nEmail: '+m+'\nFirst thing for my agent: '+u+'\n';
-  window.location.href='mailto:hello@aiagentops.nl?subject='+encodeURIComponent('MyOwnAgent setup reservation (€299 + VAT): '+n)+'&body='+encodeURIComponent(body);
+  var body='Name: '+n+'\nEmail: '+m+'\nFirst job: '+u+'\n';
+  window.location.href='mailto:hello@aiagentops.nl?subject='+encodeURIComponent('MyOwnAgent setup reservation (€99 + VAT setup): '+n)+'&body='+encodeURIComponent(body);
 });
 })();
