@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Contact — YourPersonalAssistant</title>
+<meta name="description" content="Contact Your Personal Assistant: questions, inquiries, complaints or billing. Send us a message or email hello@aiagentops.nl.">
+<meta name="theme-color" content="#0b1f19">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://myownagent.aiagentops.nl/contact">
+<meta property="og:title" content="Contact — YourPersonalAssistant">
+<meta property="og:description" content="Questions, inquiries, complaints or billing: send us a message and we reply by email.">
+<meta property="og:image" content="https://myownagent.aiagentops.nl/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Contact — YourPersonalAssistant">
+<meta name="twitter:image" content="https://myownagent.aiagentops.nl/og.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%231f5c4a'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23e8a33d'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="page-contact">
+<a class="skip" href="#main">Skip to content</a>
+<header class="nav solid" id="nav">
+  <div class="wrap nav-in">
+    <a class="logo" href="/" aria-label="YourPersonalAssistant home"><span class="mark" aria-hidden="true"></span><span class="wm">Your<span class="wm-p">Personal</span>Assistant</span></a>
+    <nav aria-label="Sections">
+      <a href="/#does">The 12 jobs</a>
+      <a href="/#day">Day &amp; night</a>
+      <a href="/#how">How it works</a>
+      <a href="/#faq">FAQ</a>
+      <a href="/contact" aria-current="page">Contact</a>
+    </nav>
+    <a class="btn btn-sm" href="/#join">Reserve<span class="long">&nbsp;· €49.99 + VAT setup</span></a>
+  </div>
+</header>
+
+<main id="main">
+<section id="contact" class="sec join contact-sec">
+  <div class="stars" aria-hidden="true"></div>
+  <div class="wrap narrow">
+    <h1 class="reveal">Get in touch.<br><span>Questions, inquiries, complaints, billing.</span></h1>
+    <p class="lead-c reveal">Tell us what it is about and we pick it up. Every message goes straight to our inbox.</p>
+    <form id="cf" class="form reveal" action="mailto:hello@aiagentops.nl" method="post" enctype="text/plain" novalidate>
+      <label for="c-name">Your name</label>
+      <input id="c-name" name="name" autocomplete="name" required aria-describedby="e-name">
+      <p class="err" id="e-name" role="alert"></p>
+      <label for="c-mail">Email</label>
+      <input id="c-mail" name="email" type="email" autocomplete="email" inputmode="email" required aria-describedby="e-mail">
+      <p class="err" id="e-mail" role="alert"></p>
+      <label for="c-topic">Topic</label>
+      <select id="c-topic" name="topic" required aria-describedby="e-topic">
+        <option value="">Choose a topic</option>
+        <option>Question</option>
+        <option>Inquiry</option>
+        <option>Complaint</option>
+        <option>Billing</option>
+        <option>Other</option>
+      </select>
+      <p class="err" id="e-topic" role="alert"></p>
+      <label for="c-subj">Subject</label>
+      <input id="c-subj" name="subject" maxlength="120" required aria-describedby="e-subj">
+      <p class="err" id="e-subj" role="alert"></p>
+      <label for="c-msg">Message</label>
+      <textarea id="c-msg" name="message" rows="6" required aria-describedby="e-msg"></textarea>
+      <p class="err" id="e-msg" role="alert"></p>
+      <button class="btn btn-big" type="submit">Send</button>
+      <p class="small">This opens your email app with your message filled in. Press send there and it reaches us.</p>
+    </form>
+    <div class="direct reveal">
+      <p><strong>Prefer to email directly?</strong></p>
+      <p class="direct-mail"><a href="mailto:hello@aiagentops.nl">hello@aiagentops.nl</a></p>
+      <p class="small">We read every message and reply by email.</p>
+      <p class="small">Billing: no refunds or returns once your first job has been delivered.</p>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <p><span class="mark" aria-hidden="true"></span><strong>YourPersonalAssistant</strong> — Jobs done while you sleep. Jobs done, not automations.</p>
+    <p class="small"><a href="/">Home</a> · <a href="/contact">Contact</a> · <a href="mailto:hello@aiagentops.nl">hello@aiagentops.nl</a></p>
+  </div>
+</footer>
+<script src="script.js"></script>
+<script src="contact.js"></script>
+</body>
+</html>
