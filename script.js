@@ -45,6 +45,6 @@ f.addEventListener('submit',function(e){
   e.preventDefault();
   var n=f.elements.name.value.trim(), m=f.elements.email.value.trim(), u=f.elements.first.value;
   var body='Name: '+n+'\nEmail: '+m+'\nFirst job: '+u+'\n';
-  window.location.href='mailto:hello@aiagentops.nl?subject='+encodeURIComponent('MyOwnAgent setup reservation (€49.99 + VAT setup, €5.99/month): '+n)+'&body='+encodeURIComponent(body);
+  window.location.href='mailto:hello@aiagentops.nl?subject='+encodeURIComponent('Your Personal Attendant setup reservation (€49.99 + VAT setup, €5.99/month): '+n)+'&body='+encodeURIComponent('I would like to reserve Your Personal Attendant.\n\n'+body);
 });
 })();
