@@ -45,7 +45,7 @@ f.addEventListener('submit',function(e){
   e.preventDefault();
   var n=f.elements.name.value.trim(), m=f.elements.email.value.trim(), u=f.elements.first.value;
   var pk=(window.YPA_PICKS&&window.YPA_PICKS())||[];
-  var body='Name: '+n+'\nEmail: '+m+'\nFirst job: '+u+'\n'+(pk.length?'My 3 jobs: '+pk.join(', ')+'\n':'');
+  var body='Name: '+n+'\nEmail: '+m+'\nFirst job: '+u+'\n'+(pk.length?'My job: '+pk.join(', ')+'\n':'');
   window.location.href='mailto:hello@aiagentops.nl?subject='+encodeURIComponent('Your Personal Assistant setup reservation (€49.99 + VAT setup): '+n)+'&body='+encodeURIComponent('I would like to reserve Your Personal Assistant.\n\n'+body);
 });
 })();
@@ -175,15 +175,15 @@ function play(id){
 function syncPick(){
   if(!cur) return; var on=picks.indexOf(cur)>-1;
   pickBtn.setAttribute('aria-pressed',on?'true':'false');
-  pickBtn.textContent = on ? '✓ In my 3 jobs' : (picks.length>=3 ? 'You have 3 jobs picked' : '+ Add to my 3 jobs');
-  pickBtn.disabled = !on && picks.length>=3;
+  pickBtn.textContent = on ? '✓ This is my job' : (picks.length ? '+ Make this my job instead' : '+ Make this my job');
+  pickBtn.disabled = false;
 }
 function renderPicks(){
   [].forEach.call(d.querySelectorAll('.jc'),function(li){ var b=li.querySelector('.orbit'); li.classList.toggle('picked',picks.indexOf(b.getAttribute('data-job'))>-1); });
   var names=picks.map(function(p){return JOBS[p].title;});
   var line=d.getElementById('picks-line'), pf=d.getElementById('picks-form');
-  if(line){ line.hidden=!picks.length; line.innerHTML=picks.length? 'Your picks ('+picks.length+' of 3): <b>'+esc(names.join(' · '))+'</b> · <a href="#join">Reserve</a>' : ''; }
-  if(pf){ pf.hidden=!picks.length; pf.textContent=picks.length? 'Your 3 jobs: '+names.join(', ') : ''; }
+  if(line){ line.hidden=!picks.length; line.innerHTML=picks.length? 'Your job: <b>'+esc(names.join(' · '))+'</b> · <a href="#join">Reserve</a>' : ''; }
+  if(pf){ pf.hidden=!picks.length; pf.textContent=picks.length? 'Your job: '+names.join(', ') : ''; }
   var sel=d.getElementById('f-use');
   if(sel&&picks.length){ [].forEach.call(sel.options,function(o){ if(o.text===JOBS[picks[0]].title) sel.value=o.value; }); }
 }
@@ -214,7 +214,7 @@ d.addEventListener('keydown',function(e){
 replay.addEventListener('click',function(){ if(cur) play(cur); });
 pickBtn.addEventListener('click',function(){
   if(!cur) return; var i=picks.indexOf(cur);
-  if(i>-1) picks.splice(i,1); else if(picks.length<3) picks.push(cur);
+  if(i>-1) picks.splice(i,1); else picks=[cur];
   syncPick(); renderPicks();
 });
 /* settle entrance delays once landed, so hover reacts at once */
